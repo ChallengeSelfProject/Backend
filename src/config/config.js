@@ -1,4 +1,4 @@
-require("dotenv").config()
+require('dotenv').config()
 
 const config = {
   development: {
@@ -6,7 +6,7 @@ const config = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
-    dialect: "mysql2",
+    dialect: 'mysql2',
     port: process.env.DB_PORT
   },
   test: {
@@ -14,7 +14,7 @@ const config = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME_TEST,
     host: process.env.DB_HOST,
-    dialect: "mysql2",
+    dialect: 'mysql2',
     port: process.env.DB_PORT
   },
   production: {
@@ -22,7 +22,7 @@ const config = {
     password: process.env.DB_PASSWORD_PROD,
     database: process.env.DB_NAME_PROD,
     host: process.env.DB_HOST_PROD,
-    dialect: "mysql2",
+    dialect: 'mysql2',
     port: process.env.DB_PORT_PROD
   }
 }
