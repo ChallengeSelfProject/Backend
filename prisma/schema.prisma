@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                             String                           @id @default(uuid())
+  email                          String                           @unique
+  username                       String                           @unique
+  name                           String?
+  password                       String
+  phone_number                   String?
+  address                        String?                          @db.Text
+  createdAt                      DateTime                         @default(now())
+  updatedAt                      DateTime                         @updatedAt
+  User_Has_Role                  User_Has_Role[]                  @relation("User_Has_Role")
+  Participant_Challenge          Participant_Challenge[]          @relation("User")
+  Participant_Challenge_Feedback Participant_Challenge_Feedback[] @relation("Reviewer")
+}
+
+model Role {
+  id            String          @id @default(uuid())
+  name          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  User_Has_Role User_Has_Role[] @relation("Role")
+}
+
+model User_Has_Role {
+  user_id String
+  role_id String
+  User    User   @relation("User_Has_Role", fields: [user_id], references: [id])
+  Role    Role   @relation("Role", fields: [role_id], references: [id])
+
+  @@id([user_id, role_id])
+}
+
+model Challenge {
+  id                    String                  @id @default(uuid())
+  slug                  String                  @unique
+  title                 String
+  description           String
+  startDate             DateTime
+  endDate               DateTime
+  urlPoster             String
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  Participant_Challenge Participant_Challenge[] @relation("Challenge")
+}
+
+model Participant_Challenge {
+  id                             String                           @id @default(uuid())
+  user_id                        String
+  challenge_id                   String
+  urlSubmission                  String
+  thumbnailSubmission            String
+  User                           User                             @relation("User", fields: [user_id], references: [id])
+  Challenge                      Challenge                        @relation("Challenge", fields: [challenge_id], references: [id])
+  createdAt                      DateTime                         @default(now())
+  updatedAt                      DateTime                         @updatedAt
+  Participant_Challenge_Image    Participant_Challenge_Image[]    @relation("Participant_Challenge_Image")
+  Participant_Challenge_feedback Participant_Challenge_Feedback[] @relation("Participant_Challenge_feedback")
+}
+
+model Participant_Challenge_Image {
+  id                       String                @id @default(uuid())
+  participant_challenge_id String
+  url                      String
+  createdAt                DateTime              @default(now())
+  updatedAt                DateTime              @updatedAt
+  Participant_Challenge    Participant_Challenge @relation("Participant_Challenge_Image", fields: [participant_challenge_id], references: [id])
+}
+
+model Participant_Challenge_Feedback {
+  id                    String                @id @default(uuid())
+  participant_id        String
+  user_id               String
+  feedback              String
+  createdAt             DateTime              @default(now())
+  updatedAt             DateTime              @updatedAt
+  Participant_Challenge Participant_Challenge @relation("Participant_Challenge_feedback", fields: [participant_id], references: [id])
+  User                  User                  @relation("Reviewer", fields: [user_id], references: [id])
+}
