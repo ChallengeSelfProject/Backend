@@ -18,6 +18,7 @@ model User {
   password                       String
   phone_number                   String?
   address                        String?                          @db.Text
+  profile_picture                String?
   createdAt                      DateTime                         @default(now())
   updatedAt                      DateTime                         @updatedAt
   User_Has_Role                  User_Has_Role[]                  @relation("User_Has_Role")
@@ -59,8 +60,8 @@ model Participant_Challenge {
   id                             String                           @id @default(uuid())
   user_id                        String
   challenge_id                   String
-  urlSubmission                  String
-  thumbnailSubmission            String
+  urlSubmission                  String?
+  thumbnailSubmission            String                           @default(null)
   User                           User                             @relation("User", fields: [user_id], references: [id])
   Challenge                      Challenge                        @relation("Challenge", fields: [challenge_id], references: [id])
   createdAt                      DateTime                         @default(now())
