@@ -61,7 +61,7 @@ model Participant_Challenge {
   user_id                        String
   challenge_id                   String
   urlSubmission                  String?
-  thumbnailSubmission            String                           @default(null)
+  thumbnailSubmission            String?
   User                           User                             @relation("User", fields: [user_id], references: [id])
   Challenge                      Challenge                        @relation("Challenge", fields: [challenge_id], references: [id])
   createdAt                      DateTime                         @default(now())
