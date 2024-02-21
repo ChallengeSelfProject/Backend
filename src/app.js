@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const cors = require('cors')
 const app = express()
+const cloudinary = require('cloudinary').v2
 const URL = '/api/v1'
 app.use(cors())
 const port = process.env.PORT || 3000
@@ -14,6 +15,14 @@ app.use(express.json()) // Add parentheses here
 app.use(logger('dev'))
 app.use(cookieParser())
 
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET
+})
+
+console.log(cloudinary.config())
+
 // routes
 app.get(`${URL}/`, (req, res) => {
   // kirim status 200 dan pesan
@@ -21,6 +30,7 @@ app.get(`${URL}/`, (req, res) => {
 })
 
 app.use(`${URL}`, require('./app/Role/role.router'))
+app.use(`${URL}`, require('./app/Challenge/challenge.router'))
 
 // api
 // app.use(`${URL}/`, apiRoute);
