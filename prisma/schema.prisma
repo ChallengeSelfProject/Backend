@@ -18,28 +18,21 @@ model User {
   password                       String
   phone_number                   String?
   address                        String?                          @db.Text
+  profile_picture                String?
+  role_id                        String
+  Role                           Role                             @relation("Role", fields: [role_id], references: [id])
   createdAt                      DateTime                         @default(now())
   updatedAt                      DateTime                         @updatedAt
-  User_Has_Role                  User_Has_Role[]                  @relation("User_Has_Role")
   Participant_Challenge          Participant_Challenge[]          @relation("User")
   Participant_Challenge_Feedback Participant_Challenge_Feedback[] @relation("Reviewer")
 }
 
 model Role {
-  id            String          @id @default(uuid())
-  name          String
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  User_Has_Role User_Has_Role[] @relation("Role")
-}
-
-model User_Has_Role {
-  user_id String
-  role_id String
-  User    User   @relation("User_Has_Role", fields: [user_id], references: [id])
-  Role    Role   @relation("Role", fields: [role_id], references: [id])
-
-  @@id([user_id, role_id])
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User[]   @relation("Role")
 }
 
 model Challenge {
@@ -59,8 +52,8 @@ model Participant_Challenge {
   id                             String                           @id @default(uuid())
   user_id                        String
   challenge_id                   String
-  urlSubmission                  String
-  thumbnailSubmission            String
+  urlSubmission                  String?
+  thumbnailSubmission            String?
   User                           User                             @relation("User", fields: [user_id], references: [id])
   Challenge                      Challenge                        @relation("Challenge", fields: [challenge_id], references: [id])
   createdAt                      DateTime                         @default(now())
