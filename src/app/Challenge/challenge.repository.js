@@ -1,5 +1,4 @@
 const prisma = require('../../config/db')
-const { generateSlug } = require('../../utils/helper')
 
 const findChallenges = async () => {
   const challanges = await prisma.challenge.findMany()
@@ -9,7 +8,7 @@ const findChallenges = async () => {
 const findChallengeBySlug = async (slug) => {
   const challenge = await prisma.challenge.findUnique({
     where: {
-      slug: slug
+      slug
     }
   })
   return challenge
@@ -37,9 +36,9 @@ const findChallangeByName = async (title) => {
 const editChallenge = async (data, slug, resultPoster) => {
   const challlenge = await prisma.challenge.update({
     where: {
-      slug: slug
+      slug
     },
-    data: data
+    data
   })
   return challlenge
 }

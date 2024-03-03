@@ -5,7 +5,6 @@ const {
   uploadImage,
   destroyImage
 } = require('../../utils/helper')
-const cloudinary = require('cloudinary').v2
 
 const {
   findChallenges,

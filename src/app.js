@@ -31,6 +31,7 @@ app.get(`${URL}/`, (req, res) => {
 
 app.use(`${URL}`, require('./app/Role/role.router'))
 app.use(`${URL}`, require('./app/Challenge/challenge.router'))
+app.use(`${URL}`, require('./app/User/user.router'))
 
 // api
 // app.use(`${URL}/`, apiRoute);
