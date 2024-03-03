@@ -25,6 +25,9 @@ const findByEmail = async (email) => {
   const user = await prisma.user.findFirst({
     where: {
       email
+    },
+    include: {
+      Role: true
     }
   })
   return user
@@ -34,6 +37,9 @@ const findByUsername = async (username) => {
   const user = await prisma.user.findFirst({
     where: {
       username
+    },
+    include: {
+      Role: true
     }
   })
   return user

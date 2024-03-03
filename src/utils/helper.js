@@ -40,10 +40,16 @@ const destroyImage = async (publicId) => {
   await cloudinary.uploader.destroy(publicId)
 }
 
+const isValidEmail = (email) => {
+  const emailRegex = /\S+@\S+\.\S+/
+  return emailRegex.test(email)
+}
+
 module.exports = {
   throwError,
   generateSlug,
   getPublicIdImageCloudinary,
   uploadImage,
-  destroyImage
+  destroyImage,
+  isValidEmail
 }
